@@ -333,10 +333,7 @@
         frameborder="0" allow="autoplay">
     </iframe> -->
 
-    <iframe width="0" height="0"
-        src="https://www.youtube.com/embed/GX9x62kFsVU?start=100&autoplay=1&loop=1&playlist=GX9x62kFsVU" frameborder="0"
-        allow="autoplay">
-    </iframe>
+    <iframe id="bgMusic" width="0" height="0" frameborder="0" allow="autoplay"></iframe>
 
 
 
@@ -345,7 +342,11 @@
 
     <!-- Loader -->
     <div id="loader">
-        <div id="loader-text">Loading the prettiest girl in the world... </br> Turn on the sound to feel the magic❤️
+        <button id="startMagicBtn" class="btn"
+            style="margin-bottom: 20px; animation: pulse 2s infinite; font-size: 1.5rem; padding: 20px 40px; z-index: 10001;">Click
+            here to experience the magic ✨</button>
+        <div id="loader-text" style="display: none; transition: opacity 1s;">Loading the prettiest girl in the world...
+            </br> Turn on the sound to feel the magic❤️
         </div>
         <div class="reveal-name" id="reveal-name">Kanmani 😄 ❤️</div>
     </div>
@@ -470,27 +471,35 @@
             const revealName = document.getElementById('reveal-name');
             const loader = document.getElementById('loader');
             const mainContent = document.getElementById('main-content');
+            const startMagicBtn = document.getElementById('startMagicBtn');
+            const bgMusic = document.getElementById('bgMusic');
 
-            setTimeout(() => {
-                loaderText.style.opacity = '0';
+            startMagicBtn.addEventListener('click', () => {
+                bgMusic.src = "https://www.youtube.com/embed/GX9x62kFsVU?start=100&autoplay=1&loop=1&playlist=GX9x62kFsVU";
+                startMagicBtn.style.display = 'none';
+                loaderText.style.display = 'block';
+
                 setTimeout(() => {
-                    loaderText.style.display = 'none';
-                    revealName.classList.add('active');
-
+                    loaderText.style.opacity = '0';
                     setTimeout(() => {
-                        loader.style.opacity = '0';
-                        loader.style.visibility = 'hidden';
+                        loaderText.style.display = 'none';
+                        revealName.classList.add('active');
 
-                        // Show main content
                         setTimeout(() => {
-                            mainContent.style.display = 'flex';
+                            loader.style.opacity = '0';
+                            loader.style.visibility = 'hidden';
+
+                            // Show main content
                             setTimeout(() => {
-                                mainContent.style.opacity = '1';
-                            }, 50);
-                        }, 800); // Wait for fade out
-                    }, 2500); // Time showing "Kanmani 😄 ❤️"
-                }, 800);
-            }, 3000); // Time showing "Loading..."
+                                mainContent.style.display = 'flex';
+                                setTimeout(() => {
+                                    mainContent.style.opacity = '1';
+                                }, 50);
+                            }, 800); // Wait for fade out
+                        }, 2500); // Time showing "Kanmani 😄 ❤️"
+                    }, 800);
+                }, 3000); // Time showing "Loading..."
+            });
         });
 
         // Interactions
@@ -652,21 +661,7 @@
             updateSlider();
         });
 
-        // Background Music Autoplay Fix
-        let musicStarted = false;
-        const bgMusic = document.getElementById('bgMusic');
-
-        function startMusic() {
-            if (!musicStarted) {
-                bgMusic.src = "https://www.youtube.com/embed/GX9x62kFsVU?autoplay=1&start=96";
-                musicStarted = true;
-                document.removeEventListener('click', startMusic);
-                document.removeEventListener('touchstart', startMusic);
-            }
-        }
-
-        document.addEventListener('click', startMusic);
-        document.addEventListener('touchstart', startMusic);
+        // Removed old autoplay fix as it's now handled by the start button
 
     </script>
 </body>
