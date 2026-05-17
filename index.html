@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Kanmani ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Caveat:wght@600&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #ff758c;
+            --secondary: #ff7eb3;
+            --bg-start: #fff1eb;
+            --bg-end: #ace0f9;
+            --text: #4a4a4a;
+            --glass: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, #fccb90 0%, #d57eeb 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        /* Background animated hearts */
+        .floating-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .heart {
+            position: absolute;
+            bottom: -50px;
+            font-size: 24px;
+            animation: floatUp linear infinite;
+            opacity: 0;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) rotate(0deg) scale(0.8);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 0.8;
+            }
+
+            90% {
+                opacity: 0.6;
+            }
+
+            100% {
+                transform: translateY(-120vh) rotate(360deg) scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        /* Loader */
+        #loader {
+            position: fixed;
+            inset: 0;
+            background: #fff;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            transition: opacity 1s ease, visibility 1s ease;
+        }
+
+        #loader-text {
+            font-size: 1.8rem;
+            font-weight: 400;
+            color: var(--primary);
+            text-align: center;
+            padding: 0 20px;
+            animation: pulse 1.5s infinite;
+        }
+
+        .reveal-name {
+            font-family: 'Caveat', cursive;
+            font-size: 5rem;
+            color: var(--primary);
+            opacity: 0;
+            transform: scale(0.5);
+            transition: all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: absolute;
+            text-shadow: 2px 2px 10px rgba(255, 117, 140, 0.3);
+        }
+
+        .reveal-name.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        /* Main Content */
+        #main-content {
+            position: relative;
+            z-index: 10;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+            opacity: 0;
+            transition: opacity 1.5s ease;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .glass-panel {
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 40px;
+            margin-bottom: 30px;
+            width: 100%;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+            text-align: center;
+            transform: translateY(30px);
+            opacity: 0;
+            animation: slideUpFade 1s ease forwards;
+        }
+
+        @keyframes slideUpFade {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        h1,
+        h2 {
+            font-family: 'Caveat', cursive;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+        }
+
+        p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .intro-text {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        .photo-container {
+            width: 380px;
+            height: 380px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 6px solid white;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s ease;
+        }
+
+        .photo-container:hover {
+            transform: scale(1.05);
+        }
+
+        .photo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 0.3s ease;
+        }
+
+        .slider-wrapper {
+            position: relative;
+            width: max-content;
+            margin: 0 auto;
+        }
+
+        .slider-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            color: var(--primary);
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 2;
+            transition: all 0.2s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .slider-btn:hover {
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .slider-btn.left {
+            left: -20px;
+        }
+
+        .slider-btn.right {
+            right: -20px;
+        }
+
+        .poem {
+            font-family: 'Caveat', cursive;
+            font-size: 2.2rem;
+            color: #d81b60;
+            line-height: 1.4;
+        }
+
+        /* Buttons */
+        .btn {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            font-size: 1.2rem;
+            font-family: 'Outfit', sans-serif;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 117, 140, 0.4);
+            transition: all 0.3s ease;
+            margin: 10px;
+            font-weight: 600;
+        }
+
+        .btn:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(255, 117, 140, 0.6);
+        }
+
+        .btn:active {
+            transform: translateY(2px);
+        }
+
+        .interactive-section {
+            margin-top: 10px;
+        }
+
+        .response-text {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #d81b60;
+            margin-top: 20px;
+            min-height: 35px;
+            opacity: 0;
+            transition: opacity 0.5s;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .response-text.show {
+            opacity: 1;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .glass-panel {
+                padding: 30px 20px;
+            }
+
+            .intro-text {
+                font-size: 1.3rem;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+
+            .poem {
+                font-size: 1.8rem;
+            }
+
+            .photo-container {
+                width: 280px;
+                height: 280px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Background Music -->
+
+    <!-- <iframe id="bgMusic" width="560" height="315" src="https://youtu.be/GX9x62kFsVU?si=297ZLscMZPSRWeCp&t=96"
+        frameborder="0" allow="autoplay">
+    </iframe> -->
+
+    <iframe width="0" height="0"
+        src="https://www.youtube.com/embed/GX9x62kFsVU?start=100&autoplay=1&loop=1&playlist=GX9x62kFsVU" frameborder="0"
+        allow="autoplay">
+    </iframe>
+
+
+
+    <!-- Floating Background Elements -->
+    <div class=" floating-hearts" id="hearts-container"></div>
+
+    <!-- Loader -->
+    <div id="loader">
+        <div id="loader-text">Loading the prettiest girl in the world... </br> Turn on the sound to feel the magic❤️
+        </div>
+        <div class="reveal-name" id="reveal-name">Kanmani 😄 ❤️</div>
+    </div>
+
+    <!-- Main Content -->
+    <div id="main-content">
+
+        <!-- Intro Section -->
+        <div class="glass-panel" style="animation-delay: 0.2s">
+            <p class="intro-text">
+                To the girl who stole my heart in the first meeting…<br>
+                and somehow became my favorite person to text and my everything ❤️
+            </p>
+        </div>
+
+        <!-- Apology Section -->
+        <div class="glass-panel" style="animation-delay: 0.4s">
+            <h2>Good Morning ☀️</h2>
+            <p>I know I might act silly or annoy you sometimes... and today i was late to say good morning kanmani
+                ❤️<br>
+                So here is my official 'Good Morning' apology.<br>
+                I'm sorry for being annoying, but I'm not sorry for caring about you! 🥺</p>
+        </div>
+
+        <!-- Why Kanmani Section -->
+        <div class="glass-panel" style="animation-delay: 0.6s">
+            <h2>Why Kanmani?</h2>
+            <p>Because no one else has that innocence which could steal my heart. Because talking to you is the
+                easiest
+                and best part of my day.
+                Because you're simply you and loves me the way i am, and that's more than enough. ✨</p>
+        </div>
+
+        <!-- Poem Section -->
+        <div class="glass-panel" style="animation-delay: 0.8s">
+            <p class="poem">
+                You make me smile without even trying,<br>
+                In a crowded room, it's you my eyes are finding.<br>
+                Every text from you lights up my day,<br>
+                I just wanted to remind you... in my own little way. 🌸
+            </p>
+        </div>
+
+        <!-- Photo Section -->
+        <div class="glass-panel" style="animation-delay: 1.0s">
+            <h2>Us 💖</h2>
+            <div class="slider-wrapper">
+                <button class="slider-btn left" id="prevSlide">❮</button>
+                <div class="photo-container">
+                    <img id="sliderImg" src="IMG_8104.PNG" alt="Our Favorite Photo">
+                </div>
+                <button class="slider-btn right" id="nextSlide">❯</button>
+            </div>
+            <p>(My favorite photos of us!)</p>
+        </div>
+
+        <!-- Interaction 1 -->
+        <div class="glass-panel interactive-section" style="animation-delay: 1.2s">
+            <h2>A Very Important Question</h2>
+            <button class="btn" id="likeBtn">Do you know how much I like you?</button>
+            <div class="response-text" id="likeResponse"></div>
+        </div>
+
+        <!-- Interaction 2 -->
+        <div class="glass-panel interactive-section" style="animation-delay: 1.4s; overflow: visible;">
+            <h2>Final Question</h2>
+            <p style="font-size: 1.4rem; font-weight: 600; margin-bottom: 20px;">Do you forgive me and accept my
+                apology? 🥺</p>
+            <div
+                style="position: relative; height: 100px; display: flex; justify-content: center; align-items: center;">
+                <button class="btn" id="yesBtn" style="margin-right: 20px;">Yes ❤️</button>
+                <button class="btn" id="noBtn"
+                    style="position: absolute; left: calc(50% + 40px); transition: all 0.2s ease; z-index: 20;">No
+                    😤</button>
+            </div>
+            <div class="response-text" id="forgiveResponse"></div>
+        </div>
+
+    </div>
+
+    <script>
+
+        // Floating Hearts Logic
+        const heartsContainer = document.getElementById('hearts-container');
+        const heartEmojis = ['❤️', '✨', '💖', '💕', '🌸', '🌟'];
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerText = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+
+            // Random properties
+            const left = Math.random() * 100;
+            const size = 15 + Math.random() * 25; // 15px to 40px
+            const duration = 6 + Math.random() * 8; // 6s to 14s
+            const delay = Math.random() * 2;
+
+            heart.style.left = `${left}vw`;
+            heart.style.fontSize = `${size}px`;
+            heart.style.animationDuration = `${duration}s`;
+            heart.style.animationDelay = `${delay}s`;
+
+            heartsContainer.appendChild(heart);
+
+            // Cleanup
+            setTimeout(() => {
+                heart.remove();
+            }, (duration + delay) * 1000);
+        }
+
+        // Spawn hearts continuously
+        setInterval(createHeart, 400);
+
+        // Pre-fill some hearts initially
+        for (let i = 0; i < 15; i++) {
+            setTimeout(createHeart, Math.random() * 2000);
+        }
+
+        // Loader Sequence
+        window.addEventListener('DOMContentLoaded', () => {
+            const loaderText = document.getElementById('loader-text');
+            const revealName = document.getElementById('reveal-name');
+            const loader = document.getElementById('loader');
+            const mainContent = document.getElementById('main-content');
+
+            setTimeout(() => {
+                loaderText.style.opacity = '0';
+                setTimeout(() => {
+                    loaderText.style.display = 'none';
+                    revealName.classList.add('active');
+
+                    setTimeout(() => {
+                        loader.style.opacity = '0';
+                        loader.style.visibility = 'hidden';
+
+                        // Show main content
+                        setTimeout(() => {
+                            mainContent.style.display = 'flex';
+                            setTimeout(() => {
+                                mainContent.style.opacity = '1';
+                            }, 50);
+                        }, 800); // Wait for fade out
+                    }, 2500); // Time showing "Kanmani 😄 ❤️"
+                }, 800);
+            }, 3000); // Time showing "Loading..."
+        });
+
+        // Interactions
+        const likeBtn = document.getElementById('likeBtn');
+        const likeResponse = document.getElementById('likeResponse');
+        const likeAnswers = [
+            "A little",
+            "More than a little",
+            "Okay fine… a lot 😭❤️"
+        ];
+        let likeClickCount = 0;
+
+        likeBtn.addEventListener('click', () => {
+            if (likeClickCount < likeAnswers.length) {
+                // Add click effect
+                likeBtn.style.transform = 'scale(0.95)';
+                setTimeout(() => likeBtn.style.transform = '', 150);
+
+                likeResponse.classList.remove('show');
+                setTimeout(() => {
+                    likeResponse.innerText = likeAnswers[likeClickCount];
+                    likeResponse.classList.add('show');
+                    likeClickCount++;
+                    if (likeClickCount === likeAnswers.length) {
+                        setTimeout(() => {
+                            likeBtn.style.opacity = '0';
+                            setTimeout(() => likeBtn.style.display = 'none', 300);
+                        }, 1000);
+                    }
+                }, 300);
+            }
+        });
+
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const forgiveResponse = document.getElementById('forgiveResponse');
+
+        noBtn.addEventListener('mouseover', () => {
+            const maxX = window.innerWidth - noBtn.offsetWidth - 20;
+            const maxY = window.innerHeight - noBtn.offsetHeight - 20;
+            const randomX = Math.random() * maxX;
+            const randomY = Math.random() * maxY;
+
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = `${randomX}px`;
+            noBtn.style.top = `${randomY}px`;
+
+            forgiveResponse.classList.remove('show');
+            setTimeout(() => {
+                const cuteMessages = ["Nuh uh! Try again!", "You can't catch me! 😝", "Nope, gotta click Yes!", "Nice try! Click Yes! ❤️"];
+                forgiveResponse.innerText = cuteMessages[Math.floor(Math.random() * cuteMessages.length)];
+                forgiveResponse.classList.add('show');
+            }, 50);
+        });
+
+        // Fallback for mobile devices to move on click
+        noBtn.addEventListener('click', () => {
+            noBtn.dispatchEvent(new Event('mouseover'));
+        });
+
+        function showerRoses() {
+            const roseEmojis = ['🌹', '🥀', '💖'];
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const rose = document.createElement('div');
+                    rose.classList.add('heart');
+                    rose.innerText = roseEmojis[Math.floor(Math.random() * roseEmojis.length)];
+                    rose.style.left = `${Math.random() * 100}vw`;
+                    const size = 20 + Math.random() * 30;
+                    rose.style.fontSize = `${size}px`;
+                    const duration = 3 + Math.random() * 5;
+                    rose.style.animationDuration = `${duration}s`;
+                    rose.style.zIndex = '9999';
+
+                    rose.style.animation = `fallDown ${duration}s linear forwards`;
+
+                    document.body.appendChild(rose);
+
+                    setTimeout(() => rose.remove(), duration * 1000);
+                }, i * 100);
+            }
+
+            if (!document.getElementById('roseKeyframes')) {
+                const style = document.createElement('style');
+                style.id = 'roseKeyframes';
+                style.innerHTML = `
+                    @keyframes fallDown {
+                        0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+                        100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+        }
+
+        let hasShowered = false;
+        yesBtn.addEventListener('mouseover', () => {
+            forgiveResponse.classList.remove('show');
+            setTimeout(() => {
+                forgiveResponse.innerText = "YAY! You're gonna say yes! 🥰💕";
+                forgiveResponse.classList.add('show');
+            }, 50);
+            if (!hasShowered) {
+                showerRoses();
+                hasShowered = true;
+            }
+        });
+
+        yesBtn.addEventListener('click', () => {
+            yesBtn.style.transform = 'scale(0.95)';
+            setTimeout(() => yesBtn.style.transform = '', 150);
+
+            noBtn.style.display = 'none';
+            yesBtn.style.opacity = '0';
+            setTimeout(() => yesBtn.style.display = 'none', 300);
+
+            forgiveResponse.classList.remove('show');
+            setTimeout(() => {
+                forgiveResponse.innerText = "YAY! Thank you for forgiving me! I'm so lucky to have you! 🥰💕";
+                forgiveResponse.classList.add('show');
+                if (!hasShowered) {
+                    showerRoses();
+                    hasShowered = true;
+                }
+            }, 300);
+        });
+
+        // Slider Logic
+        const photos = [
+            "IMG_8104.PNG",
+            "0366A3B2-038F-4196-A9B0-F8D0A5263106.PNG",
+            "1BCFC37C-C3AC-4A3C-B789-5DADCB0A356B.PNG",
+            "Gemini_Generated_Image_81stsy81stsy81st.png",
+            "Gemini_Generated_Image_f3bgogf3bgogf3bg.png",
+            "Gemini_Generated_Image_m51omam51omam51o.png",
+            "Gemini_Generated_Image_ontubvontubvontu (1).png",
+            "Gemini_Generated_Image_tp4evptp4evptp4e.png"
+        ];
+        let currentPhotoIndex = 0;
+        const sliderImg = document.getElementById('sliderImg');
+        const prevSlide = document.getElementById('prevSlide');
+        const nextSlide = document.getElementById('nextSlide');
+
+        function updateSlider() {
+            sliderImg.style.opacity = '0.5';
+            setTimeout(() => {
+                sliderImg.src = photos[currentPhotoIndex];
+                sliderImg.style.opacity = '1';
+            }, 150);
+        }
+
+        prevSlide.addEventListener('click', () => {
+            currentPhotoIndex = (currentPhotoIndex - 1 + photos.length) % photos.length;
+            updateSlider();
+        });
+
+        nextSlide.addEventListener('click', () => {
+            currentPhotoIndex = (currentPhotoIndex + 1) % photos.length;
+            updateSlider();
+        });
+
+        // Background Music Autoplay Fix
+        let musicStarted = false;
+        const bgMusic = document.getElementById('bgMusic');
+
+        function startMusic() {
+            if (!musicStarted) {
+                bgMusic.src = "https://www.youtube.com/embed/GX9x62kFsVU?autoplay=1&start=96";
+                musicStarted = true;
+                document.removeEventListener('click', startMusic);
+                document.removeEventListener('touchstart', startMusic);
+            }
+        }
+
+        document.addEventListener('click', startMusic);
+        document.addEventListener('touchstart', startMusic);
+
+    </script>
+</body>
+
+</html>
